@@ -5,7 +5,7 @@ import FaFacebook from 'react-icons/lib/fa/facebook'
 import styled from 'styled-components'
 import T from 'i18n-react'
 
-import { RouteNames } from '../routes'
+import * as pages from '../routes/pages'
 import { largeSpacing, extraSmallSpacing, smallSpacing } from '../styling/sizes'
 import { footerText, rem } from '../styling/typography'
 import Link from './Link'
@@ -83,16 +83,16 @@ const BankDetailDescription = styled.span`
   font-weight: bold;
 `
 
-const FooterLink = ({ route, text, className, ...rest }) => (
+const FooterLink = ({ href, text, className, ...rest }) => (
   <li className={className}>
-    <Link route={route} passHref {...rest}>
+    <Link href={href} passHref {...rest}>
       <a>{text}</a>
     </Link>
   </li>
 )
 
 FooterLink.propTypes = {
-  route: PropTypes.string.isRequired,
+  href: Link.propTypes.href,
   text: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
@@ -139,23 +139,17 @@ function Footer({
             <div className="row">
               <div className="col">
                 <ul className="list-unstyled">
-                  <FooterLink route={RouteNames.WhatWeDo} text={whatWeDoText} />
-                  <FooterLink
-                    route={RouteNames.ApproachSA}
-                    text={approachSaText}
-                  />
-                  <FooterLink
-                    route={RouteNames.ApproachDE}
-                    text={approachDeText}
-                  />
-                  <FooterLink route={RouteNames.Impact} text={impactText} />
+                  <FooterLink href={pages.whatWeDo} text={whatWeDoText} />
+                  <FooterLink href={pages.approachSA} text={approachSaText} />
+                  <FooterLink href={pages.approachDE} text={approachDeText} />
+                  <FooterLink href={pages.impact} text={impactText} />
                 </ul>
               </div>
               <div className="col">
                 <ul className="list-unstyled">
-                  <FooterLink route={RouteNames.WhoWeAre} text={whoWeAreText} />
-                  <FooterLink route={RouteNames.TeamSA} text={teamSaText} />
-                  <FooterLink route={RouteNames.TeamDE} text={teamDeText} />
+                  <FooterLink href={pages.whoWeAre} text={whoWeAreText} />
+                  <FooterLink href={pages.teamSA} text={teamSaText} />
+                  <FooterLink href={pages.teamDE} text={teamDeText} />
                 </ul>
               </div>
             </div>
@@ -166,40 +160,41 @@ function Footer({
               <div className="col">
                 <ul className="list-unstyled">
                   <FooterLink
-                    route={RouteNames.HowToSupport}
+                    href={pages.howToSupport}
                     text={howToSupportText}
                   />
-                  <FooterLink route={RouteNames.Donate} text={donateText} />
+                  <FooterLink href={pages.donate} text={donateText} />
                   <FooterLink
-                    route={RouteNames.BecomeSponsor}
+                    href={pages.becomeSponsor}
                     text={becomeSponsorText}
                   />
                   <FooterLink
-                    route={RouteNames.BecomeVolunteer}
+                    href={pages.becomeVolunteer}
                     text={becomeVolunteerText}
                   />
                   <FooterLink
-                    route={RouteNames.BecomePartner}
+                    href={pages.becomePartner}
                     text={becomePartnerText}
                   />
                 </ul>
               </div>
               <div className="col">
                 <ul className="list-unstyled">
-                  <ContactLink route={RouteNames.Contact} text={contactText} />
+                  <ContactLink href={pages.contact} text={contactText} />
                   <Fragment>
                     <FooterLink
-                      route={RouteNames.Blog}
-                      params={{ page: '1' }}
+                      href={{
+                        pathname: pages.blog,
+                        query: { page: '1' },
+                      }}
                       text={blogText}
                     />
+                    <FooterLink href={pages.documents} text={documentsText} />
                     <FooterLink
-                      route={RouteNames.Documents}
-                      text={documentsText}
-                    />
-                    <FooterLink
-                      route={RouteNames.Podcast}
-                      params={{ page: '1' }}
+                      href={{
+                        pathname: pages.podcast,
+                        query: { page: '1' },
+                      }}
                       text={podcastText}
                     />
                   </Fragment>
@@ -260,11 +255,11 @@ function Footer({
 
           <div className="row">
             <Text className="col">
-              <Link route={RouteNames.Impressum} passHref>
+              <Link href={pages.impressum} passHref>
                 <Anchor>{impressumText} </Anchor>
               </Link>
               &
-              <Link route={RouteNames.Datenschutz} passHref>
+              <Link href={pages.datenschutz} passHref>
                 <Anchor> {datenschutzText}</Anchor>
               </Link>
             </Text>

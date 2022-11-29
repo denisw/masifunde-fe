@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { fetchHowToSupportPage } from '../../api/howToSupport'
 import { getLocaleFromQuery } from '../../utils/locale'
 import withLayout from '../../components/withLayout'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import Link from '../../components/Link'
 import Head from '../../components/Head'
 import Hero from '../../components/Hero'
@@ -45,7 +45,7 @@ const Section = ({
   buttonLink,
 }) => (
   <SectionContainer>
-    <Link route={buttonLink} passHref>
+    <Link href={buttonLink} passHref>
       <SectionImageContainer className="col-md-4 offset-lg-1 col-lg-3">
         <SectionImage src={image.url} alt={image.title} />
       </SectionImageContainer>
@@ -53,7 +53,7 @@ const Section = ({
     <div className="col-md-8 col-lg-7">
       <h3>{title}</h3>
       <Markdown source={markdown} />
-      <Link route={buttonLink} passHref>
+      <Link href={buttonLink} passHref>
         <Button type={buttonType}>{buttonText}</Button>
       </Link>
     </div>
@@ -118,7 +118,7 @@ const HowToSupport = ({
       markdown={section1Markdown}
       image={section1Image}
       buttonType="primary"
-      buttonLink={RouteNames.Donate}
+      buttonLink={pages.donate}
     />
 
     <Section
@@ -127,7 +127,7 @@ const HowToSupport = ({
       markdown={section2Markdown}
       image={section2Image}
       buttonType="secondary"
-      buttonLink={RouteNames.BecomeSponsor}
+      buttonLink={pages.becomeSponsor}
     />
 
     <PageSection>
@@ -140,7 +140,7 @@ const HowToSupport = ({
       markdown={section3Markdown}
       image={section3Image}
       buttonType="secondary"
-      buttonLink={RouteNames.BecomeVolunteer}
+      buttonLink={pages.becomeVolunteer}
     />
 
     <Section
@@ -149,7 +149,7 @@ const HowToSupport = ({
       markdown={section4Markdown}
       image={section4Image}
       buttonType="secondary"
-      buttonLink={RouteNames.BecomePartner}
+      buttonLink={pages.becomePartner}
     />
 
     <PageSection>
@@ -159,7 +159,7 @@ const HowToSupport = ({
           headline={campaign.introHeading}
           description={campaign.introMarkdown}
           image={campaign.imageList[0].url}
-          buttonLink={RouteNames.Campaign}
+          buttonLink={pages.campaign}
           buttonText={campaign.bannerButtonText}
         />
       )}

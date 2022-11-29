@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import Button from '../Button'
 import Link from '../../components/Link'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import { smBreakpoint } from '../../styling/breakpoints'
 import { largeSpacing } from '../../styling/sizes'
 
@@ -40,11 +40,11 @@ const ButtonsContainer = styled.nav`
 
 const BlogListNavigationLink = ({ buttonText, currentPage, page, rounded }) => (
   <Link
-    route={RouteNames.Blog}
-    passHref
-    params={{
-      page,
+    href={{
+      pathname: pages.blog,
+      query: { page },
     }}
+    passHref
   >
     <Button isActive={currentPage && currentPage === page} rounded={rounded}>
       {buttonText || page}

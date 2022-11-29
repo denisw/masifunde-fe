@@ -1,4 +1,4 @@
-import { RouteNames } from '../routes'
+import * as pages from '../routes/pages'
 import { jpegQuality } from '../utils/constants'
 import { fetchSingleEntry } from './contentfulService'
 import {
@@ -24,14 +24,14 @@ export async function fetchWhatWeDoPage(locale) {
 
   const countries = {
     southAfrica: {
-      buttonLink: RouteNames.ApproachSA,
+      buttonLink: pages.approachSA,
       title: content && content.projectsTitleSa,
       description: content && content.projectsDescriptionSa,
       projects: content && content.projectsSa.map(createProject),
       button: content && content.projectsButtonSa,
     },
     germany: {
-      buttonLink: RouteNames.ApproachDE,
+      buttonLink: pages.approachDE,
       title: content && content.projectsTitleDe,
       description: content && content.projectsDescriptionDe,
       projects: content && content.projectsDe.map(createProject),
@@ -48,13 +48,8 @@ export async function fetchWhatWeDoPage(locale) {
 }
 
 export async function fetchApproachDePage(locale) {
-  const content = await fetchSingleEntry('pageApproachDE', locale) || {}
-  const {
-    teamMember,
-    image1,
-    projects,
-    bannerButtonUrl,
-  } = content
+  const content = (await fetchSingleEntry('pageApproachDE', locale)) || {}
+  const { teamMember, image1, projects, bannerButtonUrl } = content
 
   return {
     ...content,

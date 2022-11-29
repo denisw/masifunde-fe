@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { TwitterShareButton, FacebookShareButton } from 'react-share'
@@ -24,7 +25,7 @@ import {
 import { rem, footerText } from '../../styling/typography'
 import Button from '../../components/Button'
 import Link from '../../components/Link'
-import { RouteNames as routes } from '../../routes'
+import * as pages from '../../routes/pages'
 import { smallSpacing, largeSpacing } from '../../styling/sizes'
 import SocialLink from '../../components/SocialLink'
 import Divider from '../../components/Divider'
@@ -184,9 +185,10 @@ const BlogPostContent = ({
   authorExternal,
   authorText,
   shareText,
-  url,
 }) => {
-  const pageUrl = `https://www.masifunde.de/${url.asPath}`
+  const router = useRouter()
+  const pageUrl = `https://www.masifunde.de/${router.asPath}`
+
   const shareMessage = ''
   const shareIconSize = 24
 
@@ -306,21 +308,43 @@ const BlogPostNav = ({
       <div className="offset-lg-2 col-lg-8">
         <DividerWithMargin />
         <NavContainer>
-          <Link route={previousPost} passHref>
-            <NavButton type="secondary">
-              <span className="longNavText">{previousPostText}</span>
-              <span className="shortNavText">{'<'}</span>
-            </NavButton>
-          </Link>
-          <Link route={routes.Blog} passHref params={{ page: '1' }}>
+          {previousPost && (
+            <Link
+              href={{
+                pathname: pages.blogPost,
+                query: { slug: previousPost },
+              }}
+              passHref
+            >
+              <NavButton type="secondary">
+                <span className="longNavText">{previousPostText}</span>
+                <span className="shortNavText">{'<'}</span>
+              </NavButton>
+            </Link>
+          )}
+          <Link
+            href={{
+              pathname: pages.blog,
+              query: { page: '1' },
+            }}
+            passHref
+          >
             <NavButton type="secondary">{blogHomeText}</NavButton>
           </Link>
-          <Link route={nextPost} passHref>
-            <NavButton type="secondary">
-              <span className="longNavText">{nextPostText}</span>
-              <span className="shortNavText">{'>'}</span>
-            </NavButton>
-          </Link>
+          {nextPost && (
+            <Link
+              href={{
+                pathname: pages.blogPost,
+                query: { slug: nextPost },
+              }}
+              passHref
+            >
+              <NavButton type="secondary">
+                <span className="longNavText">{nextPostText}</span>
+                <span className="shortNavText">{'>'}</span>
+              </NavButton>
+            </Link>
+          )}
         </NavContainer>
       </div>
     </div>

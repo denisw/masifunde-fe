@@ -2,7 +2,7 @@ import qs from 'qs'
 import { stripUnit } from 'polished'
 
 import { jpegQuality, teamMemberAndPartnerWidth } from '../utils/constants'
-import { RouteNames } from '../routes'
+import * as pages from '../routes/pages'
 import { fetchMemoizedSingleEntry } from './contentfulService'
 
 export async function fetchHeaderData(locale) {
@@ -58,9 +58,10 @@ export const unwrapImage = (image, urlParams) => {
 }
 
 export const unwrapImages = (images = [], urlParams) =>
-  images.map(image => unwrapImage(image, urlParams))
+  images.map((image) => unwrapImage(image, urlParams))
 
-export const unwrapRegion = region => region && region.fields && region.fields.name
+export const unwrapRegion = (region) =>
+  region && region.fields && region.fields.name
 
 export const unwrapPortrait = (portrait) => {
   const imageParams = {
@@ -70,13 +71,22 @@ export const unwrapPortrait = (portrait) => {
 
   return {
     ...portrait.fields,
-    page1Image: unwrapImage(portrait && portrait.fields.page1Image, imageParams),
-    page2Image: unwrapImage(portrait && portrait.fields.page2Image, imageParams),
-    page3Image: unwrapImage(portrait && portrait.fields.page3Image, imageParams),
+    page1Image: unwrapImage(
+      portrait && portrait.fields.page1Image,
+      imageParams
+    ),
+    page2Image: unwrapImage(
+      portrait && portrait.fields.page2Image,
+      imageParams
+    ),
+    page3Image: unwrapImage(
+      portrait && portrait.fields.page3Image,
+      imageParams
+    ),
   }
 }
 
-export const unwrapStat = stat => ({
+export const unwrapStat = (stat) => ({
   ...stat.fields,
   icon: unwrapImage(stat && stat.fields && stat.fields.icon),
 })
@@ -85,7 +95,7 @@ export const unwrapStats = (stats = []) => stats.map(unwrapStat)
 
 export const unwrapPageUrl = (pageUrl) => {
   if (!pageUrl) {
-    return RouteNames.Index
+    return pages.index
   }
 
   // Contentful allows the editors to input either 'http' or 'https'.
@@ -98,7 +108,7 @@ export const unwrapPageUrl = (pageUrl) => {
     const matchLength = matches[0].length
     // remove the part of the url that matches the regex
     const internalUrl = pageUrl.substring(matchLength)
-    return internalUrl || RouteNames.Index
+    return internalUrl || pages.index
   }
 
   return pageUrl
@@ -108,12 +118,11 @@ const unwrapRegionWithContactDetails = ({ fields }) => ({
   ...fields,
 })
 
-export const unwrapRegionalGroups = regionalGroups => ({
-  name:
-    regionalGroups &&
-    regionalGroups.fields &&
-    regionalGroups.fields.name,
-  image: unwrapImage(regionalGroups && regionalGroups.fields && regionalGroups.fields.image),
+export const unwrapRegionalGroups = (regionalGroups) => ({
+  name: regionalGroups && regionalGroups.fields && regionalGroups.fields.name,
+  image: unwrapImage(
+    regionalGroups && regionalGroups.fields && regionalGroups.fields.image
+  ),
   regions:
     regionalGroups &&
     regionalGroups.fields &&
@@ -141,9 +150,10 @@ export const unwrapTeamMember = (teamMember) => {
   }
 }
 
-export const unwrapTeamMembers = (teamMembers = []) => teamMembers.map(unwrapTeamMember)
+export const unwrapTeamMembers = (teamMembers = []) =>
+  teamMembers.map(unwrapTeamMember)
 
-export const unwrapPartner = partner => ({
+export const unwrapPartner = (partner) => ({
   ...partner.fields,
   image: unwrapImage(partner && partner.fields && partner.fields.logo, {
     w: stripUnit(teamMemberAndPartnerWidth) * 2, // double the size for retina screens
@@ -153,9 +163,9 @@ export const unwrapPartner = partner => ({
   }),
 })
 
-export const unwrapPartners = partners => partners.map(unwrapPartner)
+export const unwrapPartners = (partners) => partners.map(unwrapPartner)
 
-export const unwrapAward = award => ({
+export const unwrapAward = (award) => ({
   ...award.fields,
   image: unwrapImage(award && award.fields && award.fields.logo, {
     w: 320,
@@ -203,4 +213,3 @@ export const unwrapAnnouncement = (announcement = {}) => {
     image: unwrapImage(unwrappedContent.image),
   }
 }
-

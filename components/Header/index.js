@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components'
 import T from 'i18n-react'
 
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import { rem } from '../../styling/typography'
 import Link from '../Link'
 import NavigationLink from './NavigationLink'
@@ -57,7 +57,7 @@ class Header extends Component {
       <HeaderWrapper className="fixed-top d-flex align-items-center">
         <Container>
           <StyledNavbar color="faded" light expand="md">
-            <Link route={RouteNames.Index} passHref>
+            <Link href={pages.index} passHref>
               <StyledNavbarBrand
                 height={height}
                 className="d-flex align-items-center"
@@ -71,16 +71,16 @@ class Header extends Component {
             />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto d-flex align-items-center" navbar>
-                <NavigationLink type="link" href={RouteNames.WhatWeDo}>
+                <NavigationLink type="link" href={pages.whatWeDo}>
                   {whatWeDoText}
                 </NavigationLink>
-                <NavigationLink type="link" href={RouteNames.WhoWeAre}>
+                <NavigationLink type="link" href={pages.whoWeAre}>
                   {whoWeAreText}
                 </NavigationLink>
-                <NavigationLink type="link" href={RouteNames.HowToSupport}>
+                <NavigationLink type="link" href={pages.howToSupport}>
                   {howToSupportText}
                 </NavigationLink>
-                <NavigationLink type="button" href={RouteNames.Donate}>
+                <NavigationLink type="button" href={pages.donate}>
                   {donateText}
                 </NavigationLink>
               </Nav>

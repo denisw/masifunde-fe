@@ -1,30 +1,39 @@
 /* eslint-disable react/forbid-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'next/router'
+import NextLink from 'next/link'
 
-import { Link as NextLink } from '../routes'
+import { localizeHref } from '../routes/utils'
+import useLocale from '../i18n/useLocale'
 
-const Link = ({ children, router, params, ...rest }) => (
-  <NextLink
-    {...rest}
-    params={{
-      locale: router.query.locale,
-      ...params,
-    }}
-  >
-    {children}
-  </NextLink>
-)
+const Link = ({ children, href, ...rest }) => {
+  const locale = useLocale()
+
+  const hrefWithLocale =
+    typeof href === 'string'
+      ? { pathname: href, query: { locale } }
+      : { ...href, query: { ...href.query, locale } }
+
+  return (
+    <NextLink {...rest} href={hrefWithLocale} as={localizeHref(href, locale)}>
+      {children}
+    </NextLink>
+  )
+}
 
 Link.propTypes = {
+  href: PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      query: PropTypes.object,
+    }),
+  ]),
   children: PropTypes.node.isRequired,
-  params: PropTypes.shape(),
-  router: PropTypes.any.isRequired,
 }
 
 Link.defaultProps = {
   params: {},
 }
 
-export default withRouter(Link)
+export default Link

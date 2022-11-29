@@ -19,7 +19,7 @@ import StatList from '../components/StatList'
 import { mdBreakpoint } from '../styling/breakpoints'
 import { mediumSpacing, smallSpacing } from '../styling/sizes'
 import { getLocaleFromQuery } from '../utils/locale'
-import { RouteNames } from '../routes'
+import * as pages from '../routes/pages'
 import campaignPageBannerPropTypes from '../propTypes/campaignPageBanner'
 import announcementPropTypes from '../propTypes/announcement'
 
@@ -116,7 +116,7 @@ const Home = ({
           headline={campaign.introHeading}
           description={campaign.introMarkdown}
           image={campaign.imageList[0].url}
-          buttonLink={RouteNames.Campaign}
+          buttonLink={pages.campaign}
           buttonText={campaign.bannerButtonText}
         />
 

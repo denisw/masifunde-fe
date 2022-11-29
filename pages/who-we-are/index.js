@@ -7,7 +7,7 @@ import { fetchWhoWeArePage } from '../../api/whoWeAre'
 import withLayout from '../../components/withLayout'
 import Head from '../../components/Head'
 import Button from '../../components/Button'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import Hero from '../../components/Hero'
 import Banner from '../../components/Banner'
 import PartnersList, {
@@ -49,7 +49,7 @@ const TeamButton = Button.extend`
   margin-top: ${largeSpacing};
 `
 
-const CountryMap = ({ buttonText, image, route }) => (
+const CountryMap = ({ buttonText, image, href }) => (
   <CountryContainer className="col-md-6 d-flex flex-column align-items-center">
     <ImageContainer className="d-flex justify-content-center w-100 align-items-center">
       <Image
@@ -58,7 +58,7 @@ const CountryMap = ({ buttonText, image, route }) => (
         alt={image.title}
       />
     </ImageContainer>
-    <Link route={route} passHref>
+    <Link href={href} passHref>
       <TeamButton>{buttonText}</TeamButton>
     </Link>
   </CountryContainer>
@@ -67,7 +67,7 @@ const CountryMap = ({ buttonText, image, route }) => (
 CountryMap.propTypes = {
   buttonText: PropTypes.string.isRequired,
   image: PropTypes.shape(imagePropTypes).isRequired,
-  route: PropTypes.string.isRequired,
+  href: PropTypes.string.isRequired,
 }
 
 const StyledPartnerList = styled(PartnersList)`
@@ -122,12 +122,12 @@ const WhoWeAre = ({
       <CenteredText source={paragraphOneText} />
       <div className="row justify-content-md-center">
         <CountryMap
-          route={RouteNames.TeamDE}
+          href={pages.teamDE}
           buttonText={teamDeButtonText}
           image={teamDeImage}
         />
         <CountryMap
-          route={RouteNames.TeamSA}
+          href={pages.teamSA}
           buttonText={teamSaButtonText}
           image={teamSaImage}
         />
@@ -146,7 +146,7 @@ const WhoWeAre = ({
       <h1>{paragraphTwoTitle}</h1>
       <CenteredText source={paragraphTwoText} />
       <StyledPartnerList partnersList={partnersListOne} />
-      <Link route={RouteNames.BecomePartner} passHref>
+      <Link href={pages.becomePartner} passHref>
         <Button center>{partnersButtonText}</Button>
       </Link>
     </PageSection>

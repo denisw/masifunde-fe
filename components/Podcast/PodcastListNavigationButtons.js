@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import Button from '../Button'
 import Link from '../../components/Link'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import { smBreakpoint } from '../../styling/breakpoints'
 import { largeSpacing } from '../../styling/sizes'
 
@@ -45,11 +45,11 @@ const PodcastListNavigationLink = ({
   rounded,
 }) => (
   <Link
-    route={RouteNames.Podcast}
-    passHref
-    params={{
-      page,
+    href={{
+      pathname: pages.podcast,
+      query: { page },
     }}
+    passHref
   >
     <Button isActive={currentPage && currentPage === page} rounded={rounded}>
       {buttonText || page}

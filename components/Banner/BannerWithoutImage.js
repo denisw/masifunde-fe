@@ -32,7 +32,7 @@ function BannerWithoutImage({ headline, buttonText, buttonLink, className }) {
     <OuterContainer className={className}>
       <InnerContainer>
         <Headline>{headline}</Headline>
-        <Link route={buttonLink} passHref>
+        <Link href={buttonLink} passHref>
           <Button type="banner">{buttonText}</Button>
         </Link>
       </InnerContainer>

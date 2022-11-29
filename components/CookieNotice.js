@@ -2,7 +2,7 @@ import T from 'i18n-react'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { RouteNames } from '../routes'
+import * as pages from '../routes/pages'
 import { smBreakpoint } from '../styling/breakpoints'
 import { extraSmallSpacing, extraExtraSmallSpacing } from '../styling/sizes'
 import { haveCookiesBeenAccepted, markCookiesAccepted } from '../utils/cookies'
@@ -88,7 +88,7 @@ export default class CookieNotice extends Component {
         <Text>{T.translate('cookieNotice.text')}</Text>
 
         <Buttons>
-          <Link route={RouteNames.Datenschutz} passHref>
+          <Link href={pages.datenschutz} passHref>
             <PrivacyPolicyButton type="banner">
               {T.translate('cookieNotice.privacyPolicy')}
             </PrivacyPolicyButton>

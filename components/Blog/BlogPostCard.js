@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import blogPostShape from '../../propTypes/blogPost'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import { extraSmallSpacing, smallSpacing } from '../../styling/sizes'
 import { footerText } from '../../styling/typography'
 import formatDate from '../../utils/date'
@@ -66,7 +66,13 @@ const ReadMore = styled.span`
 `
 
 const BlogPostCard = ({ post }) => (
-  <Link route={RouteNames.BlogPost} params={{ slug: post.slug }} passHref>
+  <Link
+    href={{
+      pathname: pages.blogPost,
+      query: { slug: post.slug },
+    }}
+    passHref
+  >
     <Card>
       <ImageContainer>
         {post.teaserImage && <Image src={post.teaserImage.url} />}

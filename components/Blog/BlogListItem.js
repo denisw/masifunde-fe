@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import imagePropShape from '../../propTypes/image'
 import { mdBreakpoint } from '../../styling/breakpoints'
 import { rem } from '../../styling/typography'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import Link from '../../components/Link'
 import { wordBreak } from '../../styling/utils'
 import formatDate from '../../utils/date'
@@ -63,7 +63,7 @@ const TeaserImage = styled.img`
 `
 
 const BlogPostLink = ({ children, slug }) => (
-  <Link route={RouteNames.BlogPost} passHref params={{ slug }}>
+  <Link href={{ pathname: pages.blogPost, query: { slug } }} passHref>
     <Anchor>{children}</Anchor>
   </Link>
 )

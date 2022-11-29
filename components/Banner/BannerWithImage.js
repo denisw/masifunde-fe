@@ -74,7 +74,7 @@ const BannerWithImage = ({
       {subHeadline && <SubHeading>{subHeadline}</SubHeading>}
       <ExtendedHeadline>{headline}</ExtendedHeadline>
       {description && <Description source={description} />}
-      <Link route={buttonLink} passHref>
+      <Link href={buttonLink} passHref>
         <Button type="banner">{buttonText}</Button>
       </Link>
     </ContentContainer>

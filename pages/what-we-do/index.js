@@ -10,7 +10,7 @@ import Head from '../../components/Head'
 import EmbeddedVideo from '../../components/EmbeddedVideo'
 import Button from '../../components/Button'
 import Stat from '../../components/Stat'
-import { RouteNames } from '../../routes'
+import * as pages from '../../routes/pages'
 import Link from '../../components/Link'
 import Hero from '../../components/Hero'
 import Banner from '../../components/Banner'
@@ -168,7 +168,7 @@ const ProjectsGridColumn = ({ column, country }) => (
       <ProjectList projects={country.projects} />
     </ProjectsGridCell>
     <ProjectsGridCell column={column} row={4}>
-      <Link route={country.buttonLink} passHref>
+      <Link href={country.buttonLink} passHref>
         <Button type="secondary">{country.button}</Button>
       </Link>
     </ProjectsGridCell>
@@ -257,7 +257,7 @@ const WhatWeDo = ({
           />
         ))}
       </StatList>
-      <Link route={RouteNames.Impact} passHref>
+      <Link href={pages.impact} passHref>
         <ImpactButton center type="secondary">
           {statsButton}
         </ImpactButton>

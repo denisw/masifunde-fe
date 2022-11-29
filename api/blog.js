@@ -1,7 +1,9 @@
 import { jpegQuality } from '../utils/constants'
 import { BLOG_POSTS_PER_PAGE } from '../env'
-import replaceLocale from '../utils/replaceLocale'
-import { fetchEntriesForContentType, fetchSingleEntry } from './contentfulService'
+import {
+  fetchEntriesForContentType,
+  fetchSingleEntry,
+} from './contentfulService'
 import { unwrapTeamMember, unwrapImage } from './common'
 
 function blogPostFromEntry(entry) {
@@ -48,7 +50,6 @@ function fetchBlogPostPageTemplate(locale) {
   return fetchSingleEntry('pageBlogPost', locale)
 }
 
-
 async function fetchPreviousBlogPostSlug(locale, date) {
   const fetchParams = {
     locale,
@@ -67,7 +68,7 @@ async function fetchPreviousBlogPostSlug(locale, date) {
     })
   }
 
-  return (entries && entries.length > 0) ? entries[0].fields.slug : null
+  return entries && entries.length > 0 ? entries[0].fields.slug : null
 }
 
 async function fetchNextBlogPostSlug(locale, date) {
@@ -88,7 +89,7 @@ async function fetchNextBlogPostSlug(locale, date) {
     })
   }
 
-  return (entries && entries.length > 0) ? entries[0].fields.slug : null
+  return entries && entries.length > 0 ? entries[0].fields.slug : null
 }
 
 export async function fetchBlogPostPage(locale, slug) {
@@ -106,8 +107,8 @@ export async function fetchBlogPostPage(locale, slug) {
     return {
       ...page,
       ...post,
-      previousPost: prev ? replaceLocale(`/:locale?/blog/${prev}`, locale) : null,
-      nextPost: next ? replaceLocale(`/:locale?/blog/${next}`, locale) : null,
+      previousPost: prev,
+      nextPost: next,
     }
   } catch (error) {
     if (error.name === 'PostNotFoundError') {
@@ -121,52 +122,50 @@ const blogPostsPerPage = BLOG_POSTS_PER_PAGE
 
 export function fetchBlogPostsList(locale, page) {
   const skip = blogPostsPerPage * (page - 1)
-  return fetchEntriesForContentType(
-    'blogPost',
-    {
-      unpackItems: false,
-      locale,
-      skip,
-      limit: blogPostsPerPage,
-      order: '-fields.date',
-    },
-  )
-    .then((response) => {
-      const totalNumberOfBlogPosts = response.total
-      const totalNumberOfPages = Math.ceil(totalNumberOfBlogPosts / blogPostsPerPage)
-      const entries = response.items
-      const numberOfLastPostOnPage = skip + entries.length
-      const isLastPage = numberOfLastPostOnPage >= totalNumberOfBlogPosts
+  return fetchEntriesForContentType('blogPost', {
+    unpackItems: false,
+    locale,
+    skip,
+    limit: blogPostsPerPage,
+    order: '-fields.date',
+  }).then((response) => {
+    const totalNumberOfBlogPosts = response.total
+    const totalNumberOfPages = Math.ceil(
+      totalNumberOfBlogPosts / blogPostsPerPage
+    )
+    const entries = response.items
+    const numberOfLastPostOnPage = skip + entries.length
+    const isLastPage = numberOfLastPostOnPage >= totalNumberOfBlogPosts
 
-      const blogPosts = entries.map(({ sys, fields }) => {
-        const author = fields.authorTeamMember
-          ? unwrapTeamMember(fields.authorTeamMember).name
-          : fields.authorExternal
-        const teaserImage = unwrapImage(fields.teaserImage, { q: jpegQuality, w: 1000 })
-        return ({
-          id: sys.id,
-          title: fields.title,
-          date: fields.date,
-          author,
-          teaserText: fields.metaDescription,
-          teaserImage,
-          slug: fields.slug,
-        })
+    const blogPosts = entries.map(({ sys, fields }) => {
+      const author = fields.authorTeamMember
+        ? unwrapTeamMember(fields.authorTeamMember).name
+        : fields.authorExternal
+      const teaserImage = unwrapImage(fields.teaserImage, {
+        q: jpegQuality,
+        w: 1000,
       })
-
-      return ({
-        totalNumberOfPages,
-        isLastPage,
-        blogPosts,
-      })
+      return {
+        id: sys.id,
+        title: fields.title,
+        date: fields.date,
+        author,
+        teaserText: fields.metaDescription,
+        teaserImage,
+        slug: fields.slug,
+      }
     })
+
+    return {
+      totalNumberOfPages,
+      isLastPage,
+      blogPosts,
+    }
+  })
 }
 
 export async function fetchBlogLandingPage(locale, page = 1) {
-  const [
-    pageContent,
-    fetchBlogPostsResult,
-  ] = await Promise.all([
+  const [pageContent, fetchBlogPostsResult] = await Promise.all([
     fetchSingleEntry('pageBlogHome', locale),
     fetchBlogPostsList(locale, page),
   ])

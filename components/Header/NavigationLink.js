@@ -47,7 +47,7 @@ const StyledAnchor = styled.a`
 function NavigationLink({ children, router, href, type }) {
   return (
     <NavItem>
-      <Link route={href} passHref prefetch>
+      <Link href={href} passHref prefetch>
         {type === 'link' ? (
           <StyledAnchor
             activeBorderThickness={activeLinkBorderThickness}
